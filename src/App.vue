@@ -11,7 +11,7 @@
         <button>+</button>
       </div>
       <div class="edit">
-        <EditFrom></EditFrom>
+        <EditFrom v-show="editMode"></EditFrom>
       </div>
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      editMode: true,
+      editMode: false,
       memos: [
         {id: 1, body: `今日すること\n買い物\n買い出し\nご飯食べる`},
         {id: 2, body: '今月の目標\n地域rbに参加\nメモアプリの完成'},
