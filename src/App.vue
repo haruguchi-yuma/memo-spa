@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <MemoHeader></MemoHeader>
-    <ModeTitle></ModeTitle>
+    <ModeTitle :edit-mode="editMode"></ModeTitle>
     <div class="container">
       <div class="memo-list">
         <ul v-for="memo in memos" :key="memo.id">
