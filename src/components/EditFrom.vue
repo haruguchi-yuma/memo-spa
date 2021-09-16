@@ -8,6 +8,9 @@
 
 
 <style scoped>
+.edit-form {
+  margin: 0 auto;
+}
 textarea {
   display: block;
 }

@@ -53,14 +53,18 @@ export default {
   margin: 0 auto;
 }
 
+.edit {
+  width: 50%;
+}
+
 .container {
   width: 100%;
   border: 1px solid gray;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 ul {
-  padding-left: 0;
+  padding-left: 20px;
 }
 </style>
