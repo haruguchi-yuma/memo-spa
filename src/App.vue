@@ -5,13 +5,18 @@
     <div class="container">
       <div class="memo-list">
         <ul v-for="memo in memos" :key="memo.id">
-          <li style="display: inline;" @click="editMode =! editMode">{{memo.body | firstLine}}</li>
+          <li
+            style="display: inline;"
+            @click="editable(memo)"
+          >
+              {{memo.body | firstLine}}
+          </li>
         </ul>
         <p>編集モード:{{ editMode }}</p>
         <button>+</button>
       </div>
       <div class="edit">
-        <EditFrom v-show="editMode"></EditFrom>
+        <EditFrom v-show="editMode" :edit-body="memoBody"></EditFrom>
       </div>
     </div>
   </div>
@@ -32,11 +37,18 @@ export default {
   data() {
     return {
       editMode: false,
+      memoBody: '',
       memos: [
         {id: 1, body: `今日すること\n買い物\n買い出し\nご飯食べる`},
         {id: 2, body: '今月の目標\n地域rbに参加\nメモアプリの完成'},
         {id: 3, body: '最近ハマっていること\nGitの学習\nhogehoge'}
       ]
+    }
+  },
+  methods: {
+    editable(memo) {
+      this.editMode = !this.editMode
+      this.memoBody = memo.body
     }
   },
   filters: {

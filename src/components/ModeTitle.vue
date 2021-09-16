@@ -7,6 +7,8 @@
 
 <script>
 export default {
-  props: ['editMode']
+  props: {
+    'editMode': Boolean,
+  }
 }
 </script>
