@@ -20,6 +20,7 @@
           :edit-body="editBody"
           :edit-id="editId"
           @delete-memo-id="deleteMemo($event)"
+          @edit-memo="editMemo($event)"
           ></EditFrom>
       </div>
     </div>
@@ -35,7 +36,6 @@ const STORAGE_KEY = 'memo-spa'
 const memoStorage = {
   fetch: function() {
     const memos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-
     memos.forEach(function(memo, index) {
       memo.id = index
     })
@@ -70,6 +70,7 @@ export default {
       this.editId = memo.id
     },
     creatable() {
+      console.log(this.memos)
       this.editMode = !this.editMode
       this.editBody = '新規メモ'
       this.editId = memoStorage.uid++
@@ -79,10 +80,16 @@ export default {
       })
     },
     deleteMemo(id) {
+      console.log(id)
       this.memos.splice(id, 1)
       this.editMode = !this.editMode
       this.editId = null
     },
+    editMemo({editId, editBody}) {
+      const memo = this.memos[editId]
+      memo.body = editBody
+      this.editMode = !this.editMode
+    }
   },
   watch: {
     memos: {

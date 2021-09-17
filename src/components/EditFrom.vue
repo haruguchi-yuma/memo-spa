@@ -1,7 +1,7 @@
 <template>
   <div class="edit-form">
     <textarea cols="40" rows="10" v-model="editBody"></textarea>
-    <button>編集</button>
+    <button @click="edit()">編集</button>
     <button @click="destroy(editId)">削除</button>
     <p>id: {{ editId }}, body: {{ editBody }}</p>
   </div>
@@ -13,6 +13,12 @@ export default {
   methods: {
     destroy(Id) {
       this.$emit('delete-memo-id', Id)
+    },
+    edit() {
+      this.$emit('edit-memo', {
+        editId: this.editId,
+        editBody: this.editBody
+      })
     }
   }
 }
