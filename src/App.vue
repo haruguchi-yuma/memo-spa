@@ -12,11 +12,11 @@
               <a href="#">{{memo.body | firstLine}}</a>
           </li>
         </ul>
-        <p>編集モード:{{ editMode }}</p>
-        <button>+</button>
+        <p>編集モード:{{ editMode }}</p> <!-- デバッグ用 -->
+        <p><a href="#" @click="creatable()">+</a></p>
       </div>
       <div class="edit">
-        <EditFrom v-show="editMode" :edit-body="memoBody"></EditFrom>
+        <EditFrom v-show="editMode" :edit-body="editBody"></EditFrom>
       </div>
     </div>
   </div>
@@ -26,6 +26,22 @@
 import MemoHeader from './components/MemoHeader.vue'
 import ModeTitle from './components/ModeTitle.vue'
 import EditFrom from './components/EditFrom.vue'
+
+const STORAGE_KEY = 'memo-spa'
+const memoStorage = {
+  fetch: function() {
+    const memos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+
+    memos.forEach(function(memo, index) {
+      memo.id = index
+    })
+    memoStorage.uid = memos.length
+    return memos
+  },
+  save: function(memos) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memos))
+  }
+}
 
 export default {
   name: 'App',
@@ -37,18 +53,18 @@ export default {
   data() {
     return {
       editMode: false,
-      memoBody: '',
-      memos: [
-        {id: 1, body: `今日すること\n買い物\n買い出し\nご飯食べる`},
-        {id: 2, body: '今月の目標\n地域rbに参加\nメモアプリの完成'},
-        {id: 3, body: '最近ハマっていること\nGitの学習\nhogehoge'}
-      ]
+      editBody: '',
+      memos: memoStorage.fetch()
     }
   },
   methods: {
     editable(memo) {
       this.editMode = !this.editMode
-      this.memoBody = memo.body
+      this.editBody = memo.body
+    },
+    creatable() {
+      this.editMode = !this.editMode
+      this.editBody = '新規メモ'
     }
   },
   filters: {
