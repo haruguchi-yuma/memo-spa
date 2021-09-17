@@ -16,7 +16,11 @@
         <p><a href="#" @click="creatable()">+</a></p>
       </div>
       <div class="edit">
-        <EditFrom v-show="editMode" :edit-body="editBody"></EditFrom>
+        <EditFrom v-show="editMode"
+          :edit-body="editBody"
+          :edit-id="editId"
+          @delete-memo-id="deleteMemo($event)"
+          ></EditFrom>
       </div>
     </div>
   </div>
@@ -54,6 +58,8 @@ export default {
     return {
       editMode: false,
       editBody: '',
+      editId: null,
+      deleteMemoId: null,
       memos: memoStorage.fetch()
     }
   },
@@ -61,10 +67,28 @@ export default {
     editable(memo) {
       this.editMode = !this.editMode
       this.editBody = memo.body
+      this.editId = memo.id
     },
     creatable() {
       this.editMode = !this.editMode
       this.editBody = '新規メモ'
+      this.memos.push({
+        id: memoStorage.uid++,
+        body: this.editBody
+      })
+    },
+    deleteMemo(id) {
+      this.memos.splice(id, 1)
+      this.editMode = !this.editMode
+      this.editId = null
+    },
+  },
+  watch: {
+    memos: {
+      handler: function(memos) {
+        memoStorage.save(memos)
+      },
+      deep: true
     }
   },
   filters: {
