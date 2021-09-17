@@ -9,7 +9,7 @@
             style="display: inline;"
             @click="editable(memo)"
           >
-              {{memo.body | firstLine}}
+              <a href="#">{{memo.body | firstLine}}</a>
           </li>
         </ul>
         <p>編集モード:{{ editMode }}</p>
