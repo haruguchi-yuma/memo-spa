@@ -80,13 +80,13 @@ export default {
       })
     },
     deleteMemo(id) {
-      console.log(id)
-      this.memos.splice(id, 1)
+      const index = this.memos.findIndex( v => v.id === id)
+      this.memos.splice(index, 1)
       this.editMode = !this.editMode
       this.editId = null
     },
     editMemo({editId, editBody}) {
-      const memo = this.memos[editId]
+      const memo = this.memos.find( v => v.id === editId)
       memo.body = editBody
       this.editMode = !this.editMode
     }
