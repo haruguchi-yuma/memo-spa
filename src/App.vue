@@ -12,7 +12,6 @@
               <a href="#">{{memo.body | firstLine}}</a>
           </li>
         </ul>
-        <p>編集モード:{{ editMode }}</p> <!-- デバッグ用 -->
         <p><a href="#" @click="creatable()">+</a></p>
       </div>
       <div class="edit">
@@ -70,7 +69,6 @@ export default {
       this.editId = memo.id
     },
     creatable() {
-      console.log(this.memos)
       this.editMode = !this.editMode
       this.editBody = '新規メモ'
       this.editId = memoStorage.uid++
@@ -80,13 +78,13 @@ export default {
       })
     },
     deleteMemo(id) {
-      const index = this.memos.findIndex( v => v.id === id)
+      const index = this.memos.findIndex( memo => memo.id === id)
       this.memos.splice(index, 1)
       this.editMode = !this.editMode
       this.editId = null
     },
     editMemo({editId, editBody}) {
-      const memo = this.memos.find( v => v.id === editId)
+      const memo = this.memos.find( memo => memo.id === editId)
       memo.body = editBody
       this.editMode = !this.editMode
     }
