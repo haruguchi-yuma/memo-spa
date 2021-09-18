@@ -109,6 +109,7 @@ export default {
 #app {
   width: 80%;
   margin: 0 auto;
+  color: #333;
 }
 
 .edit {
@@ -117,7 +118,6 @@ export default {
 
 .container {
   width: 100%;
-  border: 1px solid gray;
   display: flex;
   justify-content: space-between;
 }

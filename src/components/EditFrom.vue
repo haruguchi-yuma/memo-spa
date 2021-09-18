@@ -27,6 +27,7 @@ export default {
 <style scoped>
 .edit-form {
   margin: 0 auto;
+  color: #333;
 }
 textarea {
   margin-top: 15px;

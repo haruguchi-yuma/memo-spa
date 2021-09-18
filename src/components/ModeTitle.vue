@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mode-title">
     <h2 v-if="!editMode">一覧</h2>
     <h2 v-else
       >編集</h2>
@@ -13,3 +13,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.mode-title {
+  color: #333;
+}
+</style>
