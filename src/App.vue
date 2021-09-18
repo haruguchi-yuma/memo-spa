@@ -125,4 +125,8 @@ export default {
 ul {
   padding-left: 20px;
 }
+
+p a {
+  margin-left: 20px;
+}
 </style>
