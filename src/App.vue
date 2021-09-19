@@ -65,7 +65,11 @@ export default {
   },
   methods: {
     editable(memo) {
-      this.editMode = !this.editMode
+      if (this.editId != memo.id) {
+        this.editMode = true
+      } else {
+        this.editMode = !this.editMode
+      }
       this.editBody = memo.body
       this.editId = memo.id
     },
