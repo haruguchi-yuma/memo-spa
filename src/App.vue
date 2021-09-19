@@ -74,7 +74,7 @@ export default {
       this.editId = memo.id
     },
     creatable() {
-      this.editMode = !this.editMode
+      this.editMode = true
       this.editBody = '新規メモ'
       this.editId = memoStorage.uid++
       this.memos.push({
