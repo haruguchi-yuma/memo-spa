@@ -18,6 +18,7 @@
         <EditFrom v-show="editMode"
           :edit-body="editBody"
           :edit-id="editId"
+          :edit-mode="editMode"
           @delete-memo-id="deleteMemo($event)"
           @edit-memo="editMemo($event)"
           ></EditFrom>

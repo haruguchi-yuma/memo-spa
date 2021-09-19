@@ -1,6 +1,6 @@
 <template>
   <div class="edit-form">
-    <textarea cols="40" rows="20" v-model="editBody"></textarea>
+    <textarea cols="40" rows="20" v-model="editBody" v-memo-focus="editMode"></textarea>
     <button @click="edit()">編集</button>
     <button @click="destroy(editId)">削除</button>
   </div>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  props: ['editId', 'editBody'],
+  props: ['editId', 'editBody', 'editMode'],
   methods: {
     destroy(Id) {
       this.$emit('delete-memo-id', Id)
@@ -19,7 +19,14 @@ export default {
         editBody: this.editBody
       })
     }
-  }
+  },
+  directives: {
+    "memo-focus": function(el, binding) {
+      if (binding.value) {
+        el.focus();
+      }
+    }
+  },
 }
 </script>
 
