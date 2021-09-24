@@ -1,13 +1,137 @@
 <template>
   <div id="app">
+    <MemoHeader></MemoHeader>
+    <ModeTitle :edit-mode="editMode"></ModeTitle>
+    <div class="container">
+      <div class="memo-list">
+        <ul v-for="memo in memos" :key="memo.id">
+          <li
+            style="display: inline;"
+            @click="editable(memo)"
+          >
+              <a href="#">{{memo.body | firstLine}}</a>
+          </li>
+        </ul>
+        <p><a href="#" @click="creatable()">+</a></p>
+      </div>
+      <div class="edit">
+        <EditFrom v-show="editMode"
+          :edit-body="editBody"
+          :edit-id="editId"
+          :edit-mode="editMode"
+          @delete-memo-id="deleteMemo($event)"
+          @edit-memo="editMemo($event)"
+          ></EditFrom>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import MemoHeader from './components/MemoHeader.vue'
+import ModeTitle from './components/ModeTitle.vue'
+import EditFrom from './components/EditFrom.vue'
+
+const STORAGE_KEY = 'memo-spa'
+const memoStorage = {
+  fetch: function() {
+    const memos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+    memos.forEach(function(memo, index) {
+      memo.id = index
+    })
+    memoStorage.uid = memos.length
+    return memos
+  },
+  save: function(memos) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memos))
+  }
+}
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    MemoHeader,
+    ModeTitle,
+    EditFrom
+  },
+  data() {
+    return {
+      editMode: false,
+      editBody: '',
+      editId: null,
+      deleteMemoId: null,
+      memos: memoStorage.fetch()
+    }
+  },
+  methods: {
+    editable(memo) {
+      if (this.editId != memo.id) {
+        this.editMode = true
+      } else {
+        this.editMode = !this.editMode
+      }
+      this.editBody = memo.body
+      this.editId = memo.id
+    },
+    creatable() {
+      this.editMode = true
+      this.editBody = '新規メモ'
+      this.editId = memoStorage.uid++
+      this.memos.push({
+        id: this.editId,
+        body: this.editBody
+      })
+    },
+    deleteMemo(id) {
+      const index = this.memos.findIndex( memo => memo.id === id)
+      this.memos.splice(index, 1)
+      this.editMode = !this.editMode
+      this.editId = null
+    },
+    editMemo({editId, editBody}) {
+      const memo = this.memos.find( memo => memo.id === editId)
+      memo.body = editBody
+      this.editMode = !this.editMode
+    }
+  },
+  watch: {
+    memos: {
+      handler: function(memos) {
+        memoStorage.save(memos)
+      },
+      deep: true
+    }
+  },
+  filters: {
+    firstLine(value) {
+      return value.split(/\r\n|\r|\n/)[0]
+    }
+  }
 }
 </script>
 
 <style scoped>
+#app {
+  width: 80%;
+  margin: 0 auto;
+  color: #333;
+}
+
+.edit {
+  width: 50%;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+p a {
+  margin-left: 20px;
+}
 </style>
